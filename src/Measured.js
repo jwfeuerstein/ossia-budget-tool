@@ -100,6 +100,8 @@ function Measured() {
           <li style={{ textAlign: "left" }}>Same overall transmit power</li>
         </ul>
       </div>
+      <br />
+      <br />
     </div>
   );
 }
