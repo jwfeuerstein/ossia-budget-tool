@@ -13,6 +13,11 @@ This project was created by Jason Feuerstein in January 2021.
 - Admin mode allows for full control of input parameters.
 - Enter admin mode by opening "Settings" then inputting the Admin Key.
 
+## Changing Table/Graph Domain
+
+- To adjust the domain of the tables/graphs, first locate the `meters` array and add/remove input values accordingly.
+- Next, locate the `graphData` array and modify it to account for the new input values.
+
 ## Available Scripts
 
 In the project directory, you can run:

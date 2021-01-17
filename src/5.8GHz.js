@@ -123,7 +123,7 @@ function FivePointEight(props) {
   const beaconPcondTF = beaconPoutTF - condLossTF;
   const rxEirpTF = rxGainTF + beaconPcondTF;
 
-  const meters = [1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 4.0, 5.0];
+  const meters = [1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 4.0, 5.0];
 
   const Table = (props) => {
     const meters = props.meters;
@@ -321,8 +321,6 @@ function FivePointEight(props) {
       { x: meters[6], y: calcPower(meters[6]) },
       { x: meters[7], y: calcPower(meters[7]) },
       { x: meters[8], y: calcPower(meters[8]) },
-      { x: meters[9], y: calcPower(meters[9]) },
-      { x: meters[10], y: calcPower(meters[10]) },
     ];
 
     const graphDataTF = [
