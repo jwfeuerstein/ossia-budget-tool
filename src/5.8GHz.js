@@ -663,7 +663,7 @@ function FivePointEight(props) {
 
   return (
     <div className="row">
-      <div className="col" style={{ padding: "50px", marginLeft: "15%" }}>
+      <div className="col" style={{ padding: "50px", marginLeft: "10%" }}>
         <h4 style={{ float: "left" }}>Transmit</h4>
         <br />
         <br />
