@@ -1,6 +1,17 @@
 # Ossia Link Budget Tool
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created by Jason Feuerstein in January 2021.
+
+## Overview
+
+- `App.js` is the main app component, serving as the parent for all other components.
+- `2.4GHz.js` and `5.8GHz.js` contain inputs, graphs, and tables for both 2.4GHz and 5.8GHz Cota systems.
+- `Measured.js` contains the "Measured 2.4 to 5.8 GHz" feature.
+
+## Admin Mode
+
+- Admin mode allows for full control of input parameters.
+- Enter admin mode by opening "Settings" then inputting the Admin Key.
 
 ## Available Scripts
 

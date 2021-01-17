@@ -33,8 +33,6 @@ function TwoPointFour(props) {
   const [beaconPout, setBeaconPout] = useState((12.0 * -1).toFixed(2));
   const [condLoss, setCondLoss] = useState((2.0).toFixed(2));
 
-  const meters = [2.0, 2.25, 2.5, 2.75, 3.0, 4.0, 5.0];
-
   /** TX Calculated Variables */
   const wavelength = 300000000 / (frequency * 10 ** 9);
   const txAntGain =
@@ -67,6 +65,8 @@ function TwoPointFour(props) {
   );
   const beaconPcond = beaconPout - condLoss;
   const rxEirp = rxGain + beaconPcond;
+
+  const meters = [1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 4.0, 5.0];
 
   const Table = (props) => {
     const meters = props.meters;
@@ -210,159 +210,44 @@ function TwoPointFour(props) {
   };
 
   const Graph = () => {
+    const calcPower = (meters) => {
+      return (
+        10 **
+        (((txCondDbm +
+          txGain +
+          rxGain -
+          (20 * Math.log10(meters) +
+            20 * Math.log10(frequency * 10 ** 9) -
+            147.55) >
+        txRadDbm
+          ? txRadDbm
+          : txCondDbm +
+            txGain +
+            rxGain -
+            (20 * Math.log10(meters) +
+              20 * Math.log10(frequency * 10 ** 9) -
+              147.55)) -
+          30) /
+          10)
+      );
+    };
     const graphData = [
-      {
-        x: 2.0,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(2.0) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(2.0) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 2.25,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(2.25) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(2.25) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 2.5,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(2.5) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(2.5) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 2.75,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(2.75) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(2.75) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 3.0,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(3.0) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(3.0) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 4.0,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(4.0) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(4.0) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
-      {
-        x: 5.0,
-        y:
-          10 **
-          (((txCondDbm +
-            txGain +
-            rxGain -
-            (20 * Math.log10(5.0) +
-              20 * Math.log10(frequency * 10 ** 9) -
-              147.55) >
-          txRadDbm
-            ? txRadDbm
-            : txCondDbm +
-              txGain +
-              rxGain -
-              (20 * Math.log10(5.0) +
-                20 * Math.log10(frequency * 10 ** 9) -
-                147.55)) -
-            30) /
-            10),
-      },
+      { x: meters[0], y: calcPower(meters[0]) },
+      { x: meters[1], y: calcPower(meters[1]) },
+      { x: meters[2], y: calcPower(meters[2]) },
+      { x: meters[3], y: calcPower(meters[3]) },
+      { x: meters[4], y: calcPower(meters[4]) },
+      { x: meters[5], y: calcPower(meters[5]) },
+      { x: meters[6], y: calcPower(meters[6]) },
+      { x: meters[7], y: calcPower(meters[7]) },
+      { x: meters[8], y: calcPower(meters[8]) },
+      { x: meters[9], y: calcPower(meters[9]) },
+      { x: meters[10], y: calcPower(meters[10]) },
     ];
 
     return (
       <XYPlot height={300} width={500} color="black">
-        <VerticalGridLines color="black" style={{ color: "black" }} />
+        <VerticalGridLines />
         <HorizontalGridLines />
         <XAxis />
         <YAxis />
