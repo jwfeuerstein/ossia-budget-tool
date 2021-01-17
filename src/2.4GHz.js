@@ -14,7 +14,7 @@ import {
   YAxis,
 } from "react-vis";
 
-function TwoPointFour() {
+function TwoPointFour(props) {
   /* TX State Variables */
   const [frequency, setFrequency] = useState(2.45);
   const [period, setPeriod] = useState(408.163265);
@@ -22,19 +22,20 @@ function TwoPointFour() {
   const [txHeight, setTxHeight] = useState(0.6);
   const [txAntEff, setTxAntEff] = useState(0.85);
   const [paEfficiency, setPaEfficiency] = useState(0.6);
-  const [asicPout, setAsicPout] = useState(20.0);
-  const [filterLoss, setFilterLoss] = useState(1);
+  const [asicPout, setAsicPout] = useState((20.0).toFixed(2));
+  const [filterLoss, setFilterLoss] = useState(1.0);
   const [txAntPorts, setTxAntPorts] = useState(256);
 
   /* RX State Variables */
   const [rxWidth, setRxWidth] = useState(0.05);
   const [rxHeight, setRxHeight] = useState(0.5);
   const [rxAntEff, setRxAntEff] = useState(0.8);
-  const [beaconPout, setBeaconPout] = useState(-12.0);
-  const [condLoss, setCondLoss] = useState(2.0);
+  const [beaconPout, setBeaconPout] = useState((12.0 * -1).toFixed(2));
+  const [condLoss, setCondLoss] = useState((2.0).toFixed(2));
 
   const meters = [2.0, 2.25, 2.5, 2.75, 3.0, 4.0, 5.0];
 
+  /** TX Calculated Variables */
   const wavelength = 300000000 / (frequency * 10 ** 9);
   const txAntGain =
     10 *
@@ -55,6 +56,7 @@ function TwoPointFour() {
   const txRadDbm = 10 * Math.log10(txRadW) + 30;
   const txEirp = txGain + txCondDbm;
 
+  /** RX Calculated Variables */
   const rxGain =
     10 *
     Math.log10(
@@ -207,7 +209,7 @@ function TwoPointFour() {
     );
   };
 
-  const Graph = (props) => {
+  const Graph = () => {
     const graphData = [
       {
         x: 2.0,
@@ -409,13 +411,49 @@ function TwoPointFour() {
     }
   };
 
+  const handleTxAntEff = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setTxAntEff(e.target.value);
+    }
+  };
+  const handlePaEfficiency = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setPaEfficiency(e.target.value);
+    }
+  };
+  const handleAsicPout = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setAsicPout(e.target.value);
+    }
+  };
+  const handleFilterLoss = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setFilterLoss(e.target.value);
+    }
+  };
+  const handleRxAntEff = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setRxAntEff(e.target.value);
+    }
+  };
+  const handleBeaconPout = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setBeaconPout(e.target.value);
+    }
+  };
+  const handleCondLoss = (e) => {
+    if (!isNaN(e.target.value) && e.target.value != 0) {
+      setCondLoss(e.target.value);
+    }
+  };
+
   return (
     <div className="row">
       <div className="col" style={{ padding: "50px", marginLeft: "15%" }}>
         <h4 style={{ float: "left" }}>Transmit</h4>
         <br />
         <br />
-        <InputGroup style={{ maxWidth: "250px" }} className="mb-3">
+        <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroup-sizing-default">
               <b>TX Width</b>
@@ -424,7 +462,7 @@ function TwoPointFour() {
           <FormControl
             aria-label="TX-Width"
             aria-describedby="inputGroup-sizing-default"
-            defaultValue="0.6"
+            defaultValue={txWidth}
             onChange={handleTxWidth}
           />
           <InputGroup.Append>
@@ -432,7 +470,7 @@ function TwoPointFour() {
           </InputGroup.Append>
         </InputGroup>
         <br />
-        <InputGroup style={{ maxWidth: "250px" }} className="mb-3">
+        <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroup-sizing-default">
               <b>TX Height</b>
@@ -441,19 +479,83 @@ function TwoPointFour() {
           <FormControl
             aria-label="TX-Height"
             aria-describedby="inputGroup-sizing-default"
-            defaultValue="0.6"
+            defaultValue={txHeight}
             onChange={handleTxHeight}
           />
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">m</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
+
+        {props.adminMode ? (
+          <div>
+            <br />
+            <InputGroup
+              className="param"
+              style={{ maxWidth: "280px" }}
+              className="mb-3"
+            >
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>TX Ant. Eff.</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="TX-Ant-Eff"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={txAntEff}
+                onChange={handleTxAntEff}
+              />
+            </InputGroup>
+            <br />
+            <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>ASIC Pout</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="ASIC-Pout"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={asicPout}
+                onChange={handleAsicPout}
+              />
+              <InputGroup.Append>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  dBm
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            <br />
+            <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>Filter Loss</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="Filter-Loss"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={filterLoss}
+                onChange={handleFilterLoss}
+              />
+              <InputGroup.Append>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  dB
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            <br />
+          </div>
+        ) : (
+          <div></div>
+        )}
         <br />
         <br />
         <h4 style={{ float: "left" }}>Receive</h4>
         <br />
         <br />
-        <InputGroup style={{ maxWidth: "250px" }} className="mb-3">
+        <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroup-sizing-default">
               <b>RX Width</b>
@@ -462,7 +564,7 @@ function TwoPointFour() {
           <FormControl
             aria-label="RX-Width"
             aria-describedby="inputGroup-sizing-default"
-            defaultValue="0.05"
+            defaultValue={rxWidth}
             onChange={handleRxWidth}
           />
           <InputGroup.Append>
@@ -470,7 +572,7 @@ function TwoPointFour() {
           </InputGroup.Append>
         </InputGroup>
         <br />
-        <InputGroup style={{ maxWidth: "250px" }} className="mb-3">
+        <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroup-sizing-default">
               <b>RX Height</b>
@@ -479,13 +581,74 @@ function TwoPointFour() {
           <FormControl
             aria-label="RX-Height"
             aria-describedby="inputGroup-sizing-default"
-            defaultValue="0.5"
+            defaultValue={rxHeight}
             onChange={handleRxHeight}
           />
           <InputGroup.Append>
             <InputGroup.Text id="inputGroup-sizing-default">m</InputGroup.Text>
           </InputGroup.Append>
         </InputGroup>
+        {props.adminMode ? (
+          <div>
+            {" "}
+            <br />
+            <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>RX Ant. Eff.</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="RX-Ant-Eff"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={rxAntEff}
+                onChange={handleRxAntEff}
+              />
+            </InputGroup>
+            <br />
+            <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>Beacon Pout</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="Beacon-Pout"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={beaconPout}
+                onChange={handleBeaconPout}
+              />
+              <InputGroup.Append>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  dBm
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            <br />
+            <InputGroup style={{ maxWidth: "280px" }} className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  <b>Cond. Loss</b>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                aria-label="Cond-Loss"
+                aria-describedby="inputGroup-sizing-default"
+                defaultValue={condLoss}
+                onChange={handleCondLoss}
+                key="1"
+              />
+              <InputGroup.Append>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                  dB
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            <br />
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className="col" style={{ padding: "60px", marginRight: "15%" }}>
         <Table meters={meters}></Table>

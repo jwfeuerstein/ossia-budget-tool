@@ -45,7 +45,7 @@ function Measured() {
               aria-label="rfPower"
               id="rfPower"
               aria-describedby="basic-addon1"
-              defaultValue="30.0"
+              defaultValue={userInput}
               onChange={handleChange}
             />
             <InputGroup.Append>
