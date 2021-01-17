@@ -2,7 +2,7 @@
   "name": "budget-tool",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://jwfeuerstein.github.io/ossia-budget-tool",
+  "homepage": "https://main.d3uqoyx2slc8yc.amplifyapp.com/",
   "dependencies": {
     "@coreui/coreui": "^3.4.0",
     "@coreui/react": "^3.4.3",
@@ -24,8 +24,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
