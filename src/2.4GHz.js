@@ -650,7 +650,7 @@ function TwoPointFour(props) {
           <div></div>
         )}
       </div>
-      <div className="col" style={{ padding: "60px", marginRight: "15%" }}>
+      <div className="col" style={{ padding: "60px", marginRight: "10%" }}>
         <Table meters={meters}></Table>
         <br />
         <br />
